@@ -4,6 +4,7 @@ import findUp from "find-up"
 import * as fs from "fs"
 import { promisify } from "util"
 import mm from "micromatch"
+import path from "path"
 
 let readFile = promisify(fs.readFile)
 
@@ -23,6 +24,8 @@ export default async function purposefile(opts: PurposefileOpts = {}) {
 	let file = await findUp(".purposefile", { cwd })
 	if (!file) throw new Error(`.purposefile not found for "${cwd}"`)
 
+	let root = path.dirname(file)
+
 	let input = await readFile(file, "utf-8")
 	let props = properties.parse(input)
 	let patterns = Object.keys(props)
@@ -35,7 +38,7 @@ export default async function purposefile(opts: PurposefileOpts = {}) {
 
 	let ignores = ignore.map(pattern => `!${pattern}`)
 
-	let matches = await fg([...search, ...filters, ...ignores], { cwd })
+	let matches = await fg([...search, ...filters, ...ignores], { cwd: root })
 
 	let reversedPatterns = patterns.slice().reverse()
 
