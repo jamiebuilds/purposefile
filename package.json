@@ -3,7 +3,9 @@
 	"version": "1.0.1",
 	"description": "Make sure every file in your repo is exactly where it should be",
 	"main": "dist/index.js",
-	"bin": "dist/cli.js",
+	"bin": {
+		"purposefile": "dist/cli.js"
+	},
 	"files": [
 		"dist"
 	],
@@ -54,5 +56,16 @@
 			"prettier --write",
 			"git add"
 		]
-	}
+	},
+	"directories": {
+		"test": "test"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/jamiebuilds/purposefile.git"
+	},
+	"bugs": {
+		"url": "https://github.com/jamiebuilds/purposefile/issues"
+	},
+	"homepage": "https://github.com/jamiebuilds/purposefile#readme"
 }
