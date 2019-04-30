@@ -13,7 +13,7 @@
 		"check": "npm run -s build && ./dist/cli.js",
 		"format": "prettier --write '**'",
 		"build": "tsc && chmod +x ./dist/cli.js",
-		"test": "ava",
+		"test": "TS_NODE_PROJECT=./tsconfig.json ava",
 		"prepublish": "npm run -s build"
 	},
 	"keywords": [
@@ -30,6 +30,7 @@
 		"@types/find-up": "^2.1.1",
 		"@types/meow": "^5.0.0",
 		"@types/micromatch": "^3.1.0",
+		"@types/strip-indent": "^3.0.2",
 		"ava": "^1.4.1",
 		"husky": "^2.1.0",
 		"lint-staged": "^8.1.5",
@@ -42,9 +43,11 @@
 		"chalk": "^2.4.2",
 		"fast-glob": "^2.2.6",
 		"find-up": "^3.0.0",
+		"fixturez": "^1.1.0",
 		"meow": "^5.0.0",
 		"micromatch": "^4.0.2",
-		"properties": "^1.2.1"
+		"properties": "^1.2.1",
+		"strip-indent": "^3.0.0"
 	},
 	"husky": {
 		"hooks": {
@@ -67,5 +70,18 @@
 	"bugs": {
 		"url": "https://github.com/jamiebuilds/purposefile/issues"
 	},
-	"homepage": "https://github.com/jamiebuilds/purposefile#readme"
+	"homepage": "https://github.com/jamiebuilds/purposefile#readme",
+	"ava": {
+		"sources": [
+			"src/**/*.ts",
+			"!dist"
+		],
+		"compileEnhancements": false,
+		"extensions": [
+			"ts"
+		],
+		"require": [
+			"ts-node/register"
+		]
+	}
 }

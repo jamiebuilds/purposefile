@@ -25,10 +25,14 @@ README.md                    Documentation for repo
 LICENSE                      License for package
 node_modules/**              Dependencies installed by npm
 src/**/*.ts                  Source files
-!src/**/*.test.ts            Don't place test files within src/
+# Don't place test files within src/
+src/**/*.test.ts
 test/**/*.test.ts            Test files
 dist/**/*.{js,d.ts}{,.map}   Built source files
 ```
+
+> **Note:** Entries are matched in reverse order. Entries with no defined
+> purpose act like negations to the globs above them.
 
 Then run:
 

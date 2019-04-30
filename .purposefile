@@ -1,15 +1,17 @@
 .purposefile                 Configures purposefile
 .gitignore                   Configures git to ignore certain files
 .prettierrc                  Configures Prettier
+.prettierignore              Configures Prettier ignored files
 package.json                 Configures npm and related tools
 package-lock.json            Lock file for npm dependencies
 tsconfig.json                Configures TypeScript
 README.md                    Documentation for repo
 LICENSE                      License for package
-node_modules/**              Dependencies installed by npm
-types/*.d.ts                 TypeScript library type definitions
+.git/**                      Internal git state & config
+node_modules/**/*            Dependencies installed by npm
+typings/*/*.d.ts             TypeScript library type definitions
 src/**/*.ts                  Source files
-!src/**/*.test.ts            Don't place test files within src/
+src/**/*.test.ts           # Don't place test files within src/
 test/**/*.test.ts            Test files
 dist/**/*.{js,d.ts}{,.map}   Built source files
 .github/*.png                Images for README

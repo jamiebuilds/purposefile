@@ -28,7 +28,7 @@ let ignore = arrify(cli.flags.ignore)
 purposefile({
 	cwd: process.cwd(),
 	search,
-	inverse: !!search,
+	includeKnown: !!search,
 	ignore,
 })
 	.then(results => {

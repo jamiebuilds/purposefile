@@ -11,14 +11,16 @@ let readFile = promisify(fs.readFile)
 export interface PurposefileOpts {
 	cwd?: string
 	search?: string[]
-	inverse?: boolean
+	includeKnown?: boolean
 	ignore?: string[]
 }
 
+let micromatchOpts = { dot: true }
+
 export default async function purposefile(opts: PurposefileOpts = {}) {
 	let cwd = opts.cwd || process.cwd()
-	let inverse = opts.inverse || false
-	let search = opts.search || (opts.inverse ? [] : ["**"])
+	let search = opts.search || ["**"]
+	let includeKnown = opts.includeKnown || false
 	let ignore = opts.ignore || []
 
 	let file = await findUp(".purposefile", { cwd })
@@ -27,26 +29,31 @@ export default async function purposefile(opts: PurposefileOpts = {}) {
 	let root = path.dirname(file)
 
 	let input = await readFile(file, "utf-8")
-	let props = properties.parse(input)
-	let patterns = Object.keys(props)
-
-	let filters = inverse
-		? []
-		: patterns.map(p => {
-				return p.startsWith("!") ? p.slice(1) : `!${p}`
-		  })
+	let props = properties.parse(input, {
+		comments: [";", "#"],
+		strict: true,
+	})
 
 	let ignores = ignore.map(pattern => `!${pattern}`)
 
-	let matches = await fg([...search, ...filters, ...ignores], { cwd: root })
+	let globs = [...search, ...ignores]
+	let files: string[] = await fg(globs, { cwd: root, ...micromatchOpts })
 
-	let reversedPatterns = patterns.slice().reverse()
+	files = files.slice().sort((a, b) => a.localeCompare(b))
 
-	return matches.map(file => {
-		let pattern = reversedPatterns.find(pattern =>
-			mm.isMatch(file as string, pattern),
+	let patterns = Object.keys(props).reverse()
+	let entries = []
+
+	for (let file of files) {
+		let match = patterns.find(pattern =>
+			mm.isMatch(file, pattern, micromatchOpts),
 		)
-		let purpose = pattern ? props[pattern] : null
-		return { file: file as string, purpose }
-	})
+		let purpose = match ? props[match] : null
+
+		if (!purpose || includeKnown) {
+			entries.push({ file, purpose })
+		}
+	}
+
+	return entries
 }
