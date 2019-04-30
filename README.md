@@ -68,7 +68,7 @@ If you want to check `purposefile` before every commit, you can do so with [Husk
 {
 	"husky": {
 		"hooks": {
-			"pre-commit": "purposeful" // Or "purposeful && lint-staged" if you use `lint-staged`
+			"pre-commit": "purposefile" // Or "purposefile && lint-staged" if you use `lint-staged`
 		}
 	}
 }
