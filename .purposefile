@@ -12,3 +12,4 @@ src/**/*.ts                  Source files
 !src/**/*.test.ts            Don't place test files within src/
 test/**/*.test.ts            Test files
 dist/**/*.{js,d.ts}{,.map}   Built source files
+.github/*.png                Images for README

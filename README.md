@@ -2,6 +2,8 @@
 
 > Make sure every file in your repo is exactly where it should be.
 
+![Example of running purposefile CLI](./.github/list.png)
+
 ## Install
 
 ```sh
@@ -36,23 +38,38 @@ npx purposefile
 
 If all the files in the repo are known, you'll get:
 
-```
-Every file in this repo has a known purpose
-```
+![Example output of purposefile when all files are known](./.github/no-bad-files.png)
 
 Or if there's any unknown files:
 
-```
-The following files have no known purpose:
-
-random-file-1
-path/to/random-file-2
-
-You either need to delete these files or update the .purposefile
-```
+![Example output of purposefile when there are unknown files](./.github/bad-files.png)
 
 If you want to check the purpose of a file you can run:
 
 ```sh
+purposefile path/to/file
+```
 
+![Example output of purposefile for a single file lookup](./.github/lookup.png)
+
+If you want to check the purpose of many files at once you can also specify globs:
+
+```sh
+purposefile '**' --ignore '**/node_modules/**'
+```
+
+![Example output of purposefile for a glob](./.github/list.png)
+
+> **Note:** You can specify multiple `--ignore` patterns to exclude files from being listed.
+
+If you want to check `purposefile` before every commit, you can do so with [Husky](https://github.com/typicode/husky):
+
+```jsonc
+{
+	"husky": {
+		"hooks": {
+			"pre-commit": "purposeful" // Or "purposeful && lint-staged" if you use `lint-staged`
+		}
+	}
+}
 ```

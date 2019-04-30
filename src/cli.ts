@@ -55,13 +55,16 @@ purposefile({
 						"You either need to delete these files or update the .purposefile",
 					),
 			)
-			process.exit(1)
 		}
 
 		if (!search && !results.length) {
 			console.log(
 				chalk.green.bold("Every file in this repo has a known purpose"),
 			)
+		}
+
+		if (results.some(result => !result.purpose)) {
+			process.exit(1)
 		}
 	})
 	.catch(err => {

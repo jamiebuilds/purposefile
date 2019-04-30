@@ -8,6 +8,7 @@
 		"dist"
 	],
 	"scripts": {
+		"check": "npm run -s build && ./dist/cli.js",
 		"format": "prettier --write '**'",
 		"build": "tsc && chmod +x ./dist/cli.js",
 		"test": "ava",
@@ -45,7 +46,7 @@
 	},
 	"husky": {
 		"hooks": {
-			"pre-commit": "lint-staged"
+			"pre-commit": "npm run -s check && lint-staged"
 		}
 	},
 	"lint-staged": {

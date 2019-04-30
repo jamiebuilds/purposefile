@@ -2,3 +2,4 @@
 .prettierignore
 .purposefile
 LICENSE
+*.png
