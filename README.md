@@ -18,17 +18,21 @@ First create a `.purposefile` in the root of your project like this:
 .purposefile                 Configures purposefile
 .gitignore                   Configures git to ignore certain files
 .prettierrc                  Configures Prettier
+.prettierignore              Configures Prettier ignored files
 package.json                 Configures npm and related tools
 package-lock.json            Lock file for npm dependencies
 tsconfig.json                Configures TypeScript
 README.md                    Documentation for repo
 LICENSE                      License for package
-node_modules/**              Dependencies installed by npm
+.git/**                      Internal git state & config
+node_modules/**/*            Dependencies installed by npm
+typings/*/*.d.ts             TypeScript library type definitions
 src/**/*.ts                  Source files
 # Don't place test files within src/
 src/**/*.test.ts
 test/**/*.test.ts            Test files
 dist/**/*.{js,d.ts}{,.map}   Built source files
+.github/*.png                Images for README
 ```
 
 > **Note:** Entries are matched in reverse order. Entries with no defined
