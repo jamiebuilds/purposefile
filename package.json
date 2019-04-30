@@ -1,6 +1,6 @@
 {
 	"name": "purposefile",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Make sure every file in your repo is exactly where it should be",
 	"main": "dist/index.js",
 	"bin": "dist/cli.js",
