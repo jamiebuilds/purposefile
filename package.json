@@ -1,0 +1,57 @@
+{
+	"name": "purposefile",
+	"version": "0.0.0",
+	"description": "Make sure every file in your repo is exactly where it should be",
+	"main": "dist/index.js",
+	"bin": "dist/cli.js",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"format": "prettier --write '**'",
+		"build": "tsc && chmod +x ./dist/cli.js",
+		"test": "ava",
+		"prepublish": "npm run -s build"
+	},
+	"keywords": [
+		"purpose",
+		"file",
+		"reason",
+		"lint",
+		"config"
+	],
+	"author": "Jamie Kyle <me@thejameskyle.com>",
+	"license": "MIT",
+	"devDependencies": {
+		"@types/chalk": "^2.2.0",
+		"@types/find-up": "^2.1.1",
+		"@types/meow": "^5.0.0",
+		"@types/micromatch": "^3.1.0",
+		"ava": "^1.4.1",
+		"husky": "^2.1.0",
+		"lint-staged": "^8.1.5",
+		"prettier": "^1.17.0",
+		"ts-node": "^8.1.0",
+		"typescript": "^3.4.5"
+	},
+	"dependencies": {
+		"arrify": "^2.0.1",
+		"chalk": "^2.4.2",
+		"fast-glob": "^2.2.6",
+		"find-up": "^3.0.0",
+		"meow": "^5.0.0",
+		"micromatch": "^4.0.2",
+		"properties": "^1.2.1"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"*": [
+			"prettier --write",
+			"git add"
+		]
+	}
+}
