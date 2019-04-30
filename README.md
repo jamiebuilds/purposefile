@@ -6,6 +6,8 @@
 
 ## Install
 
+First, [make sure node and npm are installed](https://nodejs.org/). Then run:
+
 ```sh
 npm install --save-dev purposefile
 ```
