@@ -37,8 +37,12 @@ export default async function purposefile(opts: PurposefileOpts = {}) {
 
 	let matches = await fg([...search, ...filters, ...ignores], { cwd })
 
+	let reversedPatterns = patterns.slice().reverse()
+
 	return matches.map(file => {
-		let pattern = patterns.find(pattern => mm.isMatch(file as string, pattern))
+		let pattern = reversedPatterns.find(pattern =>
+			mm.isMatch(file as string, pattern),
+		)
 		let purpose = pattern ? props[pattern] : null
 		return { file: file as string, purpose }
 	})
