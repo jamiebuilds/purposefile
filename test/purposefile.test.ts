@@ -43,7 +43,9 @@ test("undeclared file", async t => {
 		`,
 	)
 	let res = await purposefile({ cwd })
-	t.deepEqual(res, [{ file: "bar", purpose: null }])
+	t.deepEqual(res, [
+		{ file: "bar", pattern: null, purpose: null, negated: false },
+	])
 })
 
 test("no purposefile", async t => {
@@ -60,7 +62,9 @@ test("{ search }", async t => {
 		`,
 	)
 	let res = await purposefile({ cwd, search: ["bar"] })
-	t.deepEqual(res, [{ file: "bar", purpose: null }])
+	t.deepEqual(res, [
+		{ file: "bar", pattern: null, purpose: null, negated: false },
+	])
 })
 
 test("{ search, includeKnown: true }", async t => {
@@ -78,8 +82,8 @@ test("{ search, includeKnown: true }", async t => {
 		includeKnown: true,
 	})
 	t.deepEqual(res, [
-		{ file: "bar", purpose: "Bar" },
-		{ file: "baz", purpose: null },
+		{ file: "bar", pattern: "bar", purpose: "Bar" },
+		{ file: "baz", pattern: null, purpose: null, negated: false },
 	])
 })
 
@@ -92,7 +96,9 @@ test("{ search, ignore }", async t => {
 		`,
 	)
 	let res = await purposefile({ cwd, search: ["*"], ignore: ["baz"] })
-	t.deepEqual(res, [{ file: "bar", purpose: null }])
+	t.deepEqual(res, [
+		{ file: "bar", pattern: null, purpose: null, negated: false },
+	])
 })
 
 test("{ search, ignore, includeKnown: true }", async t => {
@@ -110,9 +116,9 @@ test("{ search, ignore, includeKnown: true }", async t => {
 		includeKnown: true,
 	})
 	t.deepEqual(res, [
-		{ file: ".purposefile", purpose: "Purposefile" },
-		{ file: "bar", purpose: null },
-		{ file: "foo", purpose: "Foo" },
+		{ file: ".purposefile", pattern: ".purposefile", purpose: "Purposefile" },
+		{ file: "bar", pattern: null, purpose: null, negated: false },
+		{ file: "foo", pattern: "foo", purpose: "Foo" },
 	])
 })
 
@@ -127,7 +133,9 @@ test("negated file", async t => {
 		`,
 	)
 	let res = await purposefile({ cwd })
-	t.deepEqual(res, [{ file: "bar", purpose: null }])
+	t.deepEqual(res, [
+		{ file: "bar", pattern: "bar", purpose: null, negated: true as true },
+	])
 })
 
 test("negated part", async t => {
@@ -141,5 +149,47 @@ test("negated part", async t => {
 		`,
 	)
 	let res = await purposefile({ cwd })
-	t.deepEqual(res, [{ file: "file.test.js", purpose: null }])
+	t.deepEqual(res, [
+		{
+			file: "file.test.js",
+			pattern: "*.test.js",
+			purpose: null,
+			negated: true as true,
+		},
+	])
+})
+
+test("explicitly negated file", async t => {
+	let cwd = temp(
+		["foo", "bar", "baz"],
+		`
+			.purposefile Purposefile
+			* Files
+			!bar   No Bar
+		`,
+	)
+	let res = await purposefile({ cwd })
+	t.deepEqual(res, [
+		{ file: "bar", pattern: "!bar", purpose: null, negated: "No Bar" },
+	])
+})
+
+test("explicitly negated part", async t => {
+	let cwd = temp(
+		["file.js", "file.test.js"],
+		`
+			.purposefile Purposefile
+			*.js Source files
+			!*.test.js Not test files
+		`,
+	)
+	let res = await purposefile({ cwd })
+	t.deepEqual(res, [
+		{
+			file: "file.test.js",
+			pattern: "!*.test.js",
+			purpose: null,
+			negated: "Not test files",
+		},
+	])
 })

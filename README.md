@@ -6,10 +6,34 @@
 
 ## Install
 
-First, [make sure node and npm are installed](https://nodejs.org/). Then run:
+First, [make sure node and npm are installed](https://nodejs.org/).
+
+Then if you have an existing `package.json` you can run:
 
 ```sh
 npm install --save-dev purposefile
+npx purposefile
+```
+
+Or if you want to use it globally you can also just run:
+
+```sh
+npx purposefile
+```
+
+It's recommended that you save this to your [`package.json#scripts`](https://docs.npmjs.com/misc/scripts)
+
+```json
+{
+	"name": "my-package",
+	"scripts": {
+		"check-files": "purposefile"
+	}
+}
+```
+
+```sh
+npm run check-files
 ```
 
 ## Usage
@@ -30,15 +54,14 @@ LICENSE                      License for package
 node_modules/**/*            Dependencies installed by npm
 typings/*/*.d.ts             TypeScript library type definitions
 src/**/*.ts                  Source files
-# Don't place test files within src/
-src/**/*.test.ts
+!src/**/*.test.ts            Dont place test files within src/
 test/**/*.test.ts            Test files
 dist/**/*.{js,d.ts}{,.map}   Built source files
 .github/*.png                Images for README
 ```
 
 > **Note:** Entries are matched in reverse order. Entries with no defined
-> purpose act like negations to the globs above them.
+> purpose or that start with a `!` act like negations to the globs above them.
 
 Then run:
 
