@@ -11,7 +11,7 @@ LICENSE                      License for package
 node_modules/**/*            Dependencies installed by npm
 typings/*/*.d.ts             TypeScript library type definitions
 src/**/*.ts                  Source files
-!src/**/*.test.ts            Dont place test files within src/
+!src/**/*.test.ts            Tests belong in test/ not src/
 test/**/*.test.ts            Test files
 dist/**/*.{js,d.ts}{,.map}   Built source files
 .github/*.png                Images for README

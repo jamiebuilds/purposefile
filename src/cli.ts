@@ -39,10 +39,12 @@ purposefile({
 		}
 
 		for (let result of results) {
-			if (result.purpose) {
+			if (result.purpose !== null) {
 				console.log(
 					`${chalk.cyan(result.file)} ${chalk.dim(result.purpose || "")}`,
 				)
+			} else if (typeof result.negated === "string") {
+				console.log(`${chalk.red(result.file)} ${result.negated}`)
 			} else {
 				console.log(`${chalk.red(result.file)}`)
 			}
